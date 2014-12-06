@@ -127,7 +127,45 @@
             <td class="table-body">
             <span id="result_2" style="display: none;"></span>
             </td>
-            </tr>
+            </tr><?
+			print ($_POST);
+            	$street =htmlentities($street);
+require_once("classes/gmap/simpleGMapAPI.php");
+require_once("classes/gmap/simpleGMapGeocoder.php");
+$map = new simpleGMapAPI();
+$geo = new simpleGMapGeocoder();
+$map->setWidth(600);
+$map->setHeight(300);
+$map->setBackgroundColor('#d0d0d0');
+$map->setMapDraggable(true);
+$map->setDoubleclickZoom(false);
+$map->setScrollwheelZoom(true);
+
+$map->showDefaultUI(false);
+$map->showMapTypeControl(true, 'DROPDOWN_MENU');
+$map->showNavigationControl(true, 'DEFAULT');
+$map->showScaleControl(true);
+$map->showStreetViewControl(true);
+$map->setZoomLevel(14);
+$map->setInfoWindowBehaviour('SINGLE_CLOSE_ON_MAPCLICK');
+$map->setInfoWindowTrigger('CLICK');
+
+$map->addMarkerByAddress("$street, $ort");
+
+echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n";
+echo "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n";
+echo "<head>\n";
+echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";
+
+$map->printGMapsJS();
+
+echo "</head>\n";
+echo "\n\n<body>\n\n";
+
+$map->showMap(true);
+
+echo "</body>\n";
+echo "</html>\n";?>
         <tr>
             <td class="textbox">Wo genau? <br> Detailierte Beschreibung</td>
             <td class="table-body"><textarea name="wg" cols="50" rows="10"></textarea></td>
